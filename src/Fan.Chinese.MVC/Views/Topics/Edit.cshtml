@@ -1,0 +1,52 @@
+@model Fan.Chinese.MVC.Models.Topic
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Topic</h4>
+        <hr/>
+        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="TopicCategory" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TopicCategory" class="form-control"/>
+                <span asp-validation-for="TopicCategory" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="TopicName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TopicName" class="form-control"/>
+                <span asp-validation-for="TopicName" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="TopicVocabularies" class="col-md-2 control-label"></label>
+            @*<div class="col-md-10">
+                <select asp-for="TopicVocabularies" asp-items="ViewBag.TopicVocabularies" >
+                </select>  
+            </div>*@
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default"/>
+            </div>
+        </div>
+    </div>
+    <div class="hidden"><input asp-for="TopicId" class="form-control" /></div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

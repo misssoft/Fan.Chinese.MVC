@@ -1,0 +1,51 @@
+@model IEnumerable<Fan.Chinese.MVC.Models.Topic>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TopicName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TopicVocabularies)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TopicCategory)
+        </th>
+        <th></th>
+    </tr>
+    
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TopicName)
+        </td>
+        <td>
+            @if (item.TopicVocabularies != null)
+            {
+                foreach (var vocabulary in item.TopicVocabularies)
+                {
+                    @Html.DisplayFor(modelItem => vocabulary.Vocabulary.Chinese)
+                    <span>  |  </span>
+                }
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TopicCategory)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.TopicId">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.TopicId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.TopicId">Delete</a>
+        </td>
+    </tr>
+}
+</table>

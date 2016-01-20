@@ -1,0 +1,56 @@
+@model IEnumerable<Fan.Chinese.MVC.Models.Vocabulary>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Pinyin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Chinese)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.English)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Example)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExamplePinyin)
+        </th>
+        <th></th>
+    </tr>
+    
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pinyin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Chinese)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.English)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Example)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamplePinyin)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.VocabularyId">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.VocabularyId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.VocabularyId">Delete</a>
+        </td>
+    </tr>
+}
+</table>

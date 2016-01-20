@@ -1,0 +1,48 @@
+@model Fan.Chinese.MVC.Models.Vocabulary
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Vocabulary</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Chinese)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Chinese)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.English)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.English)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Example)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Example)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExamplePinyin)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExamplePinyin)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Pinyin)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Pinyin)
+        </dd>
+    </dl>
+</div>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.VocabularyId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>

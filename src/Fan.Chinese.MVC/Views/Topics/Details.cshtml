@@ -1,0 +1,43 @@
+@model Fan.Chinese.MVC.Models.Topic
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Topic</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TopicCategory)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TopicCategory)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TopicName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TopicName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TopicVocabularies)
+        </dt>
+        <dd>
+            @if (Model.TopicVocabularies != null)
+            {
+                foreach (var vocabulary in Model.TopicVocabularies)
+                {
+                    @Html.DisplayFor(modelItem => vocabulary.Vocabulary.Chinese)
+                    <span>  |  </span>
+                }
+            }
+        </dd>
+    </dl>
+</div>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.TopicId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>
