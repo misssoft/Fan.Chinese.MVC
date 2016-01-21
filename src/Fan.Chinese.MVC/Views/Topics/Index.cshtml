@@ -31,10 +31,16 @@
         <td>
             @if (item.TopicVocabularies != null)
             {
+                var count = 0;
                 foreach (var vocabulary in item.TopicVocabularies)
                 {
-                    @Html.DisplayFor(modelItem => vocabulary.Vocabulary.Chinese)
-                    <span>  |  </span>
+                    count++;
+                    var link = string.Format("~/Vocabularies/Details/{0}", vocabulary.Vocabulary.VocabularyId);
+                    <a href="@link">@Html.DisplayFor(modelItem => vocabulary.Vocabulary.Chinese)</a>
+                    if (count < item.TopicVocabularies.Count)
+                    {
+                        <span>  |  </span>
+                    }
                 }
             }
         </td>

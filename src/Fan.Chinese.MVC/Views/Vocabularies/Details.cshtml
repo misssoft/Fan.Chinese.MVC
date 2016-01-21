@@ -1,3 +1,4 @@
+@using Microsoft.Data.Entity.Metadata.Internal
 @model Fan.Chinese.MVC.Models.Vocabulary
 
 @{
@@ -14,7 +15,11 @@
             @Html.DisplayNameFor(model => model.Chinese)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Chinese)
+            @{
+                var link = string.Format("https://www.google.co.uk/search?q={0}", Model.Chinese);
+            }
+            <a href=@link>@Html.DisplayFor(model => model.Chinese)</a>
+            
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.English)

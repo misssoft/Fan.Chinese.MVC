@@ -24,18 +24,19 @@
             @Html.DisplayNameFor(model => model.Example)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ExamplePinyin)
+            @Html.DisplayNameFor(model => model.TopicVocabularies)
         </th>
         <th></th>
     </tr>
     
 @foreach (var item in Model) {
+    var link = string.Format("https://www.google.co.uk/search?q={0}",@item.Chinese); 
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Pinyin)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Chinese)
+            <a href=@link>@Html.DisplayFor(modelItem => item.Chinese)</a>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.English)
@@ -44,7 +45,20 @@
             @Html.DisplayFor(modelItem => item.Example)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ExamplePinyin)
+            @if (item.TopicVocabularies != null)
+            {
+                var count = 0;
+                foreach (var vocabulary in item.TopicVocabularies)
+                {
+                    count++;
+                    var topicId =String.Format("~/Topics/Details/{0}", vocabulary.Topic.TopicId);
+                    <a href=@topicId>@Html.DisplayFor(modelItem => vocabulary.Topic.TopicName)</a>
+                    if (count < item.TopicVocabularies.Count)
+                    {
+                        <span>  |  </span>
+                    }
+                }
+            }
         </td>
         <td>
             <a asp-action="Edit" asp-route-id="@item.VocabularyId">Edit</a> |

@@ -63,6 +63,7 @@ namespace Fan.Chinese.MVC
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseStatusCodePagesWithRedirects("/Home/Error");
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
