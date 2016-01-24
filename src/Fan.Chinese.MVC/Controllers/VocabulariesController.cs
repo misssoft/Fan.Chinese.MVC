@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
@@ -12,16 +13,16 @@ namespace Fan.Chinese.MVC.Controllers
 
         public VocabulariesController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Vocabularies
         public IActionResult Index()
         {
             return View(_context.Vocabulary
-                .Include(v=>v.TopicVocabularies)
-                .ThenInclude(v=>v.Topic).
-                ToList().OrderBy(x=> x.Pinyin));
+                .Include(v => v.TopicVocabularies)
+                .ThenInclude(v => v.Topic).
+                ToList().OrderBy(x => x.Pinyin));
         }
 
         // GET: Vocabularies/Details/5
@@ -32,13 +33,15 @@ namespace Fan.Chinese.MVC.Controllers
                 return HttpNotFound();
             }
 
-            Vocabulary vocabulary = _context.Vocabulary.Single(m => m.VocabularyId == id);
-            if (vocabulary == null)
+            Vocabulary vocabulary = null;
+
+            vocabulary = _context.Vocabulary.Single(m => m.VocabularyId == id);
+            if (vocabulary != null)
             {
-                return HttpNotFound();
+                return View(vocabulary);
             }
 
-            return View(vocabulary);
+            return HttpNotFound();
         }
 
         // GET: Vocabularies/Create

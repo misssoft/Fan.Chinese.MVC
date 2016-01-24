@@ -27,8 +27,22 @@ namespace Fan.Chinese.MVC.Controllers
             return View();
         }
 
-        public IActionResult Error()
+        [Route("Error/Status/{statusCode}")]
+        public IActionResult Error(int statusCode)
         {
+            ViewData["Message"] = statusCode.ToString();
+            return View();
+        }
+
+        public IActionResult ErrorPage()
+        {
+            ViewData["Message"] = "Ooooops";
+            return View();
+        }
+
+        public IActionResult NotFoundPage()
+        {
+            ViewData["Message"] = "Haha";
             return View();
         }
     }

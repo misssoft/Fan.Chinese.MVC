@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Fan.Chinese.MVC.Middleware;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -12,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Fan.Chinese.MVC.Models;
 using Fan.Chinese.MVC.Repository;
 using Fan.Chinese.MVC.Services;
+using Microsoft.AspNet.Diagnostics;
+using Microsoft.AspNet.Http;
 
 namespace Fan.Chinese.MVC
 {
@@ -26,7 +29,6 @@ namespace Fan.Chinese.MVC
 
             if (env.IsDevelopment())
             {
-                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets();
             }
 
@@ -58,42 +60,35 @@ namespace Fan.Chinese.MVC
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void ConfigureDevelopment(IApplicationBuilder app,  ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
 
-            app.UseStatusCodePagesWithRedirects("/Home/Error");
-            if (env.IsDevelopment())
-            {
-                app.UseBrowserLink();
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
+            loggerFactory.AddConsole(minLevel:LogLevel.Debug);
 
-                // For more details on creating database during deployment see http://go.microsoft.com/fwlink/?LinkID=615859
-                try
-                {
-                    using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
-                        .CreateScope())
-                    {
-                        serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
-                             .Database.Migrate();
-                    }
-                }
-                catch { }
-            }
+            app.UseDeveloperExceptionPage();
 
-            app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
+            Configure(app);
+        }
+
+
+        public void ConfigureProduction(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        {
+            loggerFactory.AddConsole(minLevel: LogLevel.Warning);
+
+            app.UseExceptionHandler("/Home/ErrorPage");
+
+            Configure(app);
+        }
+
+        public void Configure(IApplicationBuilder app)
+        {
+            //app.UseStatusCodePages();
+            //app.UseStatusCodePages(b => b.UseWelcomePage());
+            app.UseStatusCodePagesWithRedirects("/Home/NotFoundPage");
 
             app.UseStaticFiles();
 
             app.UseIdentity();
-
-            // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
             {
@@ -101,6 +96,17 @@ namespace Fan.Chinese.MVC
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            try
+            {
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+                    .CreateScope())
+                {
+                    serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
+                         .Database.Migrate();
+                }
+            }
+            catch { }
 
             SampleData.Initialize(app.ApplicationServices);
         }
