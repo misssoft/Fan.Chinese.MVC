@@ -14,7 +14,10 @@ using Fan.Chinese.MVC.Models;
 using Fan.Chinese.MVC.Repository;
 using Fan.Chinese.MVC.Services;
 using Microsoft.AspNet.Diagnostics;
+using Microsoft.AspNet.FileProviders;
 using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Server.Kestrel.Http;
+using Microsoft.AspNet.StaticFiles;
 
 namespace Fan.Chinese.MVC
 {
@@ -26,11 +29,6 @@ namespace Fan.Chinese.MVC
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
-            if (env.IsDevelopment())
-            {
-                builder.AddUserSecrets();
-            }
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -59,19 +57,50 @@ namespace Fan.Chinese.MVC
             services.AddScoped<ITopicRepository, TopicRepository>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void ConfigureDevelopment(IApplicationBuilder app,  ILoggerFactory loggerFactory)
+        
+        public void ConfigurePrototype(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseWelcomePage("/welcome");
+            
+            app.UseDeveloperExceptionPage();
+            
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions()
+            {
+                FileProvider = new PhysicalFileProvider(@"E:\GitHub\Fan.Chinese.MVC\src\Fan.Chinese.MVC\Properties"),
+                RequestPath = new PathString("/Properties")
+            });
+
+            app.UseStaticFiles();
+
+            app.UseStatusCodePagesWithRedirects("/NotFoundPage.html");
+
+            app.Run(async (context) =>
+            {
+                if (context.Request.Query.ContainsKey("throw")) throw new Exception("Exception triggered!");
+                context.Response.ContentType = "text/html";
+                await context.Response.WriteAsync($"<html><body><h2>Nihao {env.EnvironmentName}!</h2>");
+                await context.Response.WriteAsync("<ul>");
+                await context.Response.WriteAsync("<li><a href=\"/welcome\">Welcome Page</a></li>");
+                await context.Response.WriteAsync("<li><a href=\"/Properties\">Browse Property Directory</a></li>");
+                await context.Response.WriteAsync("<li><a href=\"/?throw=true\">Throw Exception</a></li>");
+                await context.Response.WriteAsync("</ul>");
+                await context.Response.WriteAsync("</body></html>");
+            });
+
+        }
+
+        public void ConfigureDevelopment(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(LogLevel.Information);
 
             app.UseLoggingStatusCodeMiddleware();
 
             app.UseDeveloperExceptionPage();
-            
+
             Configure(app);
         }
 
-
+        
         public void ConfigureProduction(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(LogLevel.Warning);
@@ -84,7 +113,6 @@ namespace Fan.Chinese.MVC
         public void Configure(IApplicationBuilder app)
         {
             //app.UseStatusCodePages();
-            //app.UseStatusCodePages(b => b.UseWelcomePage());
             app.UseStatusCodePagesWithRedirects("/Home/NotFoundPage");
 
             app.UseStaticFiles();
@@ -93,23 +121,17 @@ namespace Fan.Chinese.MVC
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute( name: "default", template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            try
-            {
-                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
-                    .CreateScope())
-                {
-                    serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
-                         .Database.Migrate();
-                }
-            }
-            catch { }
 
-           
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+                .CreateScope())
+            {
+                serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
+                     .Database.Migrate();
+            }
+
             SampleData.Initialize(app.ApplicationServices);
         }
 

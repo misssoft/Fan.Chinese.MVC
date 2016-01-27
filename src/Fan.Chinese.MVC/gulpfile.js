@@ -44,4 +44,4 @@ gulp.task("min:livecss", function () {
         .pipe(gulp.dest("."));
 });
 
-gulp.task("min", ["min:js", "min:css"]);
+gulp.task("min", ["min:js", "min:livecss"]);
