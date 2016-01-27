@@ -62,18 +62,19 @@ namespace Fan.Chinese.MVC
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void ConfigureDevelopment(IApplicationBuilder app,  ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole(LogLevel.Information);
 
-            loggerFactory.AddConsole(minLevel:LogLevel.Debug);
+            app.UseLoggingStatusCodeMiddleware();
 
             app.UseDeveloperExceptionPage();
-
+            
             Configure(app);
         }
 
 
         public void ConfigureProduction(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(minLevel: LogLevel.Warning);
+            loggerFactory.AddConsole(LogLevel.Warning);
 
             app.UseExceptionHandler("/Home/ErrorPage");
 
@@ -108,6 +109,7 @@ namespace Fan.Chinese.MVC
             }
             catch { }
 
+           
             SampleData.Initialize(app.ApplicationServices);
         }
 

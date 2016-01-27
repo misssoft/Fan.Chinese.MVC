@@ -31,10 +31,19 @@ namespace Fan.Chinese.MVC.Repository
 
         public Topic GetTopic(int id)
         {
-            var topic = _context.Topic
-                .Include(v => v.TopicVocabularies)
-                .ThenInclude(t => t.Vocabulary)
-                .Single(m => m.TopicId == id);
+            Topic topic = null;
+            try
+            {
+                var topics = _context.Topic
+                    .Include(v => v.TopicVocabularies)
+                    .ThenInclude(t => t.Vocabulary);
+                topic = topics.First(m => m.TopicId == id);
+            }
+            catch
+            {
+                return null;
+            }
+
             return topic;
         }
 
