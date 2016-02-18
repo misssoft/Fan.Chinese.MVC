@@ -10,39 +10,44 @@ namespace Fan.Chinese.MVC.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["Title"] = "Home";
+            ViewData["Message"] = "This is the home page";
             return View();
         }
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
-
+            ViewData["Title"] = "About";
+            ViewData["Message"] = "The web site is about GCSE Chinese";
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
-
+            ViewData["Title"] = "Contact";
+            ViewData["Message"] = "Contact me";
             return View();
         }
 
         [Route("Error/Status/{statusCode}")]
         public IActionResult Error(int statusCode)
         {
-            ViewData["Message"] = statusCode.ToString();
+            ViewData["Title"] = "System Error: " + statusCode.ToString();
+            ViewData["Message"] = "Ooooops, Something went wrong in the system";
             return View();
         }
 
         public IActionResult ErrorPage()
         {
-            ViewData["Message"] = "Ooooops";
+            ViewData["Title"] = "System Error";
+            ViewData["Message"] = "Ooooops, Something went wrong in the system.";
             return View();
         }
 
         public IActionResult NotFoundPage()
         {
-            ViewData["Message"] = "Haha";
+            ViewData["Title"] = "Page Not Found";
+            ViewData["Message"] = "Haha, your page seems not exist, please check the URL.";
             return View();
         }
     }
