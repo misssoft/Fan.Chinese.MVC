@@ -106,7 +106,7 @@ namespace Fan.Chinese.MVC
         {
             loggerFactory.AddConsole(LogLevel.Warning);
 
-            app.UseExceptionHandler("/Home/ErrorPage");
+            app.UseExceptionHandler("/Error/System");
 
             Configure(app);
         }

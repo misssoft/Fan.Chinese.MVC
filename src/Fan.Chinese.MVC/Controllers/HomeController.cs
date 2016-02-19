@@ -29,28 +29,6 @@ namespace Fan.Chinese.MVC.Controllers
             return View();
         }
 
-        [Route("Error/Status/{statusCode}")]
-        public IActionResult Error(int statusCode)
-        {
-            ViewData["Title"] = "System Error: " + statusCode.ToString();
-            ViewData["Message"] = "Ooooops, Something went wrong in the system";
-            return View();
-        }
-
-        [Route("ErrorPage/")]
-        public IActionResult ErrorPage(string message=null)
-        {
-            ViewData["Title"] = "System Error";
-
-            if (string.IsNullOrEmpty(message))
-                ViewData["Message"] = "Ooooops, Something went wrong in the system.";
-            else
-            {
-                ViewData["Message"] = message;
-            }
-            return View();
-        }
-
         public IActionResult NotFoundPage()
         {
             ViewData["Title"] = "Page Not Found";

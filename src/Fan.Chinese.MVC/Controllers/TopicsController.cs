@@ -42,7 +42,7 @@ namespace Fan.Chinese.MVC.Controllers
             {
                 _logger.LogError(ex.Message);
                 var message = new TopicNotFoundMessage(id);
-                return RedirectToAction("ErrorPage", "Home", new { message = message.ToDisplayMessage() });
+                return RedirectToAction("System", "Error", new { message = message.ToDisplayMessage() });
             }
             return View(topic);
         }
@@ -78,7 +78,7 @@ namespace Fan.Chinese.MVC.Controllers
             {
                 _logger.LogError(ex.Message);
                 var message = new TopicNotFoundMessage(id);
-                return RedirectToAction("ErrorPage", "Home", new { message = message.ToDisplayMessage() });
+                return RedirectToAction("System", "Error", new { message = message.ToDisplayMessage() });
             }
             return View(topic);
         }
@@ -109,7 +109,7 @@ namespace Fan.Chinese.MVC.Controllers
             {
                 _logger.LogError(ex.Message);
                 var message = new TopicNotFoundMessage(id);
-                return RedirectToAction("ErrorPage", "Home", new { message = message.ToDisplayMessage() });
+                return RedirectToAction("System", "Error", new { message = message.ToDisplayMessage() });
             }
             return View(topic);
         }

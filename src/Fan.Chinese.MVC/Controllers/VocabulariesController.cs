@@ -40,7 +40,7 @@ namespace Fan.Chinese.MVC.Controllers
             {
                 _logger.LogError(ex.Message);
                 var message = new VocabularyNotFoundMessage(id);
-                return RedirectToAction("ErrorPage", "Home", new { message = message.ToDisplayMessage() });
+                return RedirectToAction("System", "Error", new { message = message.ToDisplayMessage() });
             }
             return View(vocabulary);
         }
@@ -76,7 +76,7 @@ namespace Fan.Chinese.MVC.Controllers
             {
                 _logger.LogError(ex.Message);
                 var message = new VocabularyNotFoundMessage(id);
-                return RedirectToAction("ErrorPage", "Home", new { message = message.ToDisplayMessage() });
+                return RedirectToAction("System", "Error", new { message = message.ToDisplayMessage() });
             }
             return View(vocabulary);
         }
@@ -107,7 +107,7 @@ namespace Fan.Chinese.MVC.Controllers
             {
                 _logger.LogError(ex.Message);
                 var message = new VocabularyNotFoundMessage(id);
-                return RedirectToAction("ErrorPage", "Home", new { message = message.ToDisplayMessage() });
+                return RedirectToAction("System", "Error", new { message = message.ToDisplayMessage() });
             }
             return View(vocabulary);
         }
