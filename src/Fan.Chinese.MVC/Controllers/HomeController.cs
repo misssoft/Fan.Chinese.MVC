@@ -37,10 +37,17 @@ namespace Fan.Chinese.MVC.Controllers
             return View();
         }
 
-        public IActionResult ErrorPage()
+        [Route("ErrorPage/")]
+        public IActionResult ErrorPage(string message=null)
         {
             ViewData["Title"] = "System Error";
-            ViewData["Message"] = "Ooooops, Something went wrong in the system.";
+
+            if (string.IsNullOrEmpty(message))
+                ViewData["Message"] = "Ooooops, Something went wrong in the system.";
+            else
+            {
+                ViewData["Message"] = message;
+            }
             return View();
         }
 
