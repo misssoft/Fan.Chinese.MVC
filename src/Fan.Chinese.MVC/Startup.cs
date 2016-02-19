@@ -55,6 +55,7 @@ namespace Fan.Chinese.MVC
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddScoped<ITopicRepository, TopicRepository>();
+            services.AddScoped<IVocabularyRepository, VocabularyRepository>();
         }
 
         

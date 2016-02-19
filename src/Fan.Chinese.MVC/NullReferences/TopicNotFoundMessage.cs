@@ -10,7 +10,7 @@ namespace Fan.Chinese.MVC.NullReferences
         private readonly int topicId;
         public TopicNotFoundMessage(int id)
         {
-            this.topicId = id;
+            topicId = id;
         }
         public string ToDisplayMessage()
         {

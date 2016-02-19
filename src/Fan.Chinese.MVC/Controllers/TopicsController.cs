@@ -33,7 +33,6 @@ namespace Fan.Chinese.MVC.Controllers
         // GET: Topics/Details/5
         public IActionResult Details(int id)
         {
-            var message = new TopicNotFoundMessage(id);
             Topic topic;
             try
             {
@@ -42,6 +41,7 @@ namespace Fan.Chinese.MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
+                var message = new TopicNotFoundMessage(id);
                 return RedirectToAction("ErrorPage", "Home", new { message = message.ToDisplayMessage() });
             }
             return View(topic);
@@ -69,7 +69,6 @@ namespace Fan.Chinese.MVC.Controllers
         // GET: Topics/Edit/5
         public IActionResult Edit(int id)
         {
-            var message = new TopicNotFoundMessage(id);
             Topic topic;
             try
             {
@@ -78,6 +77,7 @@ namespace Fan.Chinese.MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
+                var message = new TopicNotFoundMessage(id);
                 return RedirectToAction("ErrorPage", "Home", new { message = message.ToDisplayMessage() });
             }
             return View(topic);
@@ -100,7 +100,6 @@ namespace Fan.Chinese.MVC.Controllers
         [ActionName("Delete")]
         public IActionResult Delete(int id)
         {
-            var message = new TopicNotFoundMessage(id);
             Topic topic;
             try
             {
@@ -109,10 +108,9 @@ namespace Fan.Chinese.MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
+                var message = new TopicNotFoundMessage(id);
                 return RedirectToAction("ErrorPage", "Home", new { message = message.ToDisplayMessage() });
             }
-            return View(topic);
-
             return View(topic);
         }
 
