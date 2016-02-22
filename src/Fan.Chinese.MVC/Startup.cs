@@ -113,8 +113,10 @@ namespace Fan.Chinese.MVC
 
         public void Configure(IApplicationBuilder app)
         {
-            //app.UseStatusCodePages();
-            app.UseStatusCodePagesWithRedirects("/Home/NotFoundPage");
+            //app.UseStatusCodePages();  //Default 404 page by MS
+            app.UseStatusCodePagesWithRedirects("~/NotFound.html");  //WWW route error page
+            //app.UseStatusCodePagesWithRedirects("/Home/NotFoundPage"); //MVC error Page
+
 
             app.UseStaticFiles();
 
